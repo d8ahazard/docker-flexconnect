@@ -31,7 +31,7 @@ docker create \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=Europe/London \
-  -v <path to data>:/config \
+  -v <path to data>:/app \
   -v <path to plex data>:/plex \
   --restart unless-stopped \
   --network=host \
@@ -54,7 +54,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - <path to data>:/config
+      - <path to data>:/app
       - <path to plex data>:/plex
     restart: unless-stopped
     network_mode: "host"
@@ -69,7 +69,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London. |
-| `-v /config` | Contains flexconnect config and database. |
+| `-v /app` | Contains flexconnect files. |
 | `-v /plex` | Map this to Plex data directory - recommended RO. |
 
 ## User / Group Identifiers

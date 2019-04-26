@@ -1,5 +1,16 @@
 #!/usr/bin/with-contenv bash
 
+# fetch site
+[[ ! -d /app/flexconnect/.git ]] && \
+	echo "No repo found, pulling..."
+	git clone https://github.com/d8ahazard/FlexConnect /app/flexconnect
+
+echo "Updating FlexConnect..."
+cd /app/flexconnect
+git stash && git fetch && git pull
+chmod -R 777 /app/flexconnect
+git config core.fileMode false
+
 # permissions
 chown -R abc:abc \
 	/app
