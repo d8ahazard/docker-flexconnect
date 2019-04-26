@@ -7,6 +7,9 @@ ARG TAUTULLI_RELEASE
 LABEL build_version="Digitalhigh version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="Digitalhigh"
 
+# ports and volumes
+VOLUME /app /plex
+
 RUN \
  echo "**** install packages ****" && \
  apk add --no-cache --virtual=build-dependencies \
@@ -17,14 +20,14 @@ RUN \
  apk add --no-cache \
         jq && \
  echo "**** install app ****" && \
- mkdir -p /app/flextv && \
+ mkdir -p /app/flexconnect && \
  curl -o \
- /tmp/flextv.tar.gz -L \
+ /tmp/flexconnect.tar.gz -L \
 	"https://github.com/d8ahazard/FlexConnect/archive/master.tar.gz" && \
  tar xf \
- /tmp/flextv.tar.gz -C \
-	/app/flextv --strip-components=1 && \
- chmod -R 777 /app/flextv && \
+ /tmp/flexconnect.tar.gz -C \
+	/app/flexconnect --strip-components=1 && \
+ chmod -R 777 /app/flexconnect && \
  apk del --purge \
 	build-dependencies && \
  rm -rf \
@@ -33,6 +36,3 @@ RUN \
 
 # add local files
 COPY root/ /
-
-# ports and volumes
-VOLUME /config /plex
