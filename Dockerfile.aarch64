@@ -24,6 +24,7 @@ RUN \
  tar xf \
  /tmp/flextv.tar.gz -C \
 	/app/flextv --strip-components=1 && \
+ chmod -R 777 /app/flextv && \
  apk del --purge \
 	build-dependencies && \
  rm -rf \
