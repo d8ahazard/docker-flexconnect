@@ -1,36 +1,15 @@
-[![linuxserver.io](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/linuxserver_medium.png)](https://linuxserver.io)
+FlexConnect - A Helper for Flex TV
+ 
+# [digitalhigh/flexconnect](https://github.com/d8ahazard/docker-flexconnect)
 
-The [LinuxServer.io](https://linuxserver.io) team brings you another container release featuring :-
+[FlexConnect](http://github.com/d8ahazard/docker-flexconnect) is a python based web application for monitoring, analytics and control of Plex Media Server.
 
- * regular and timely application updates
- * easy user mappings (PGID, PUID)
- * custom base image with s6 overlay
- * weekly base OS updates with common layers across the entire LinuxServer.io ecosystem to minimise space usage, down time and bandwidth
- * regular security updates
-
-Find us at:
-* [Discord](https://discord.gg/YWrKVTn) - realtime support / chat with the community and the team.
-* [IRC](https://irc.linuxserver.io) - on freenode at `#linuxserver.io`. Our primary support channel is Discord.
-* [Blog](https://blog.linuxserver.io) - all the things you can do with our containers including How-To guides, opinions and much more!
-
-# [linuxserver/tautulli](https://github.com/linuxserver/docker-tautulli)
-[![](https://img.shields.io/discord/354974912613449730.svg?logo=discord&label=LSIO%20Discord&style=flat-square)](https://discord.gg/YWrKVTn)
-[![](https://images.microbadger.com/badges/version/linuxserver/tautulli.svg)](https://microbadger.com/images/linuxserver/tautulli "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/linuxserver/tautulli.svg)](https://microbadger.com/images/linuxserver/tautulli "Get your own version badge on microbadger.com")
-![Docker Pulls](https://img.shields.io/docker/pulls/linuxserver/tautulli.svg)
-![Docker Stars](https://img.shields.io/docker/stars/linuxserver/tautulli.svg)
-[![Build Status](https://ci.linuxserver.io/buildStatus/icon?job=Docker-Pipeline-Builders/docker-tautulli/master)](https://ci.linuxserver.io/job/Docker-Pipeline-Builders/job/docker-tautulli/job/master/)
-[![](https://lsio-ci.ams3.digitaloceanspaces.com/linuxserver/tautulli/latest/badge.svg)](https://lsio-ci.ams3.digitaloceanspaces.com/linuxserver/tautulli/latest/index.html)
-
-[Tautulli](http://tautulli.com) is a python based web application for monitoring, analytics and notifications for Plex Media Server.
-
-[![tautulli](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/tautulli-icon.png)](http://tautulli.com)
 
 ## Supported Architectures
 
-Our images support multiple architectures such as `x86-64`, `arm64` and `armhf`. We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list) and our announcement [here](https://blog.linuxserver.io/2019/02/21/the-lsio-pipeline-project/). 
+Our images support multiple architectures such as `x86-64`, `arm64` and `armhf`. We utilise the docker manifest for multi-platform awareness. More information is available from docker [here](https://github.com/docker/distribution/blob/master/docs/spec/manifest-v2-2.md#manifest-list) and our announcement [here](https://blog.digitalhigh.io/2019/02/21/the-lsio-pipeline-project/). 
 
-Simply pulling `linuxserver/tautulli` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+Simply pulling `digitalhigh/flexconnect` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
 
 The architectures supported by this image are:
 
@@ -40,15 +19,6 @@ The architectures supported by this image are:
 | arm64 | arm64v8-latest |
 | armhf | arm32v7-latest |
 
-## Version Tags
-
-This image provides various versions that are available via tags. `latest` tag usually provides the latest stable version. Others are considered under development and caution must be exercised when using them.
-
-| Tag | Description |
-| :----: | --- |
-| latest | Stable Tautulli releases |
-| develop | Built at head of Tautulli nightly branch |
-
 ## Usage
 
 Here are some example snippets to help you get started creating a container.
@@ -57,15 +27,15 @@ Here are some example snippets to help you get started creating a container.
 
 ```
 docker create \
-  --name=tautulli \
+  --name=FlexConnect \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=Europe/London \
-  -p 8181:8181 \
+  -p 5667:5667 \
   -v <path to data>:/config \
-  -v <path to plex logs>:/logs \
+  -v <path to plex data>:/plex \
   --restart unless-stopped \
-  linuxserver/tautulli
+  digitalhigh/flexconnect
 ```
 
 
@@ -73,22 +43,21 @@ docker create \
 
 Compatible with docker-compose v2 schemas.
 
-```
 ---
 version: "2"
 services:
-  tautulli:
-    image: linuxserver/tautulli
-    container_name: tautulli
+  flexconnect:
+    image: digitalhigh/flexconnect
+    container_name: flexconnect
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
     volumes:
       - <path to data>:/config
-      - <path to plex logs>:/logs
+      - <path to plex data>:/plex
     ports:
-      - 8181:8181
+      - 5667:5667
     restart: unless-stopped
 ```
 
@@ -98,12 +67,12 @@ Container images are configured using parameters passed at runtime (such as thos
 
 | Parameter | Function |
 | :----: | --- |
-| `-p 8181` | WebUI |
+| `-p 5667` | WebUI |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London. |
-| `-v /config` | Contains tautulli config and database. |
-| `-v /logs` | Map this to Plex log directory - recommended RO. |
+| `-v /config` | Contains flexconnect config and database. |
+| `-v /plex` | Map this to Plex data directory - recommended RO. |
 
 ## User / Group Identifiers
 
@@ -122,65 +91,4 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
 &nbsp;
 ## Application Setup
 
-Access the webui at `<your-ip>:8181`, for more information check out [Tautulli](http://tautulli.com).
-In tautulli gui settings, under `Plex Media Server`, turn on `Show Advanced` and set the `Logs Folder` to `/logs`
-
-
-
-## Support Info
-
-* Shell access whilst the container is running: `docker exec -it tautulli /bin/bash`
-* To monitor the logs of the container in realtime: `docker logs -f tautulli`
-* container version number 
-  * `docker inspect -f '{{ index .Config.Labels "build_version" }}' tautulli`
-* image version number
-  * `docker inspect -f '{{ index .Config.Labels "build_version" }}' linuxserver/tautulli`
-
-## Updating Info
-
-Most of our images are static, versioned, and require an image update and container recreation to update the app inside. With some exceptions (ie. nextcloud, plex), we do not recommend or support updating apps inside the container. Please consult the [Application Setup](#application-setup) section above to see if it is recommended for the image.  
-  
-Below are the instructions for updating containers:  
-  
-### Via Docker Run/Create
-* Update the image: `docker pull linuxserver/tautulli`
-* Stop the running container: `docker stop tautulli`
-* Delete the container: `docker rm tautulli`
-* Recreate a new container with the same docker create parameters as instructed above (if mapped correctly to a host folder, your `/config` folder and settings will be preserved)
-* Start the new container: `docker start tautulli`
-* You can also remove the old dangling images: `docker image prune`
-
-### Via Taisun auto-updater (especially useful if you don't remember the original parameters)
-* Pull the latest image at its tag and replace it with the same env variables in one shot:
-  ```
-  docker run --rm \
-  -v /var/run/docker.sock:/var/run/docker.sock taisun/updater \
-  --oneshot tautulli
-  ```
-* You can also remove the old dangling images: `docker image prune`
-
-### Via Docker Compose
-* Update all images: `docker-compose pull`
-  * or update a single image: `docker-compose pull tautulli`
-* Let compose update all containers as necessary: `docker-compose up -d`
-  * or update a single container: `docker-compose up -d tautulli`
-* You can also remove the old dangling images: `docker image prune`
-
-## Versions
-
-* **23.03.19:** - Switching to new Base images, shift to arm32v7 tag.
-* **22.02.19:** - Rebasing to alpine 3.9.
-* **26.01.19:** - Add pipeline logic and multi arch.
-* **23.10.18:** - Update plex logs info in readm.
-* **16.08.18:** - Rebase to alpine 3.8.
-* **10.03.18:** - Rebrand to tautulli.
-* **12.12.17:** - Rebase to alpine 3.7.
-* **21.07.17:** - Internal git pull instead of at runtime.
-* **12.07.17:** - Add inspect commands to README, move to jenkins build and push.
-* **25.05.17:** - Rebase to alpine 3.6.
-* **20.04.17:** - Add pycryptodomex pip package.
-* **07.02.17:** - Rebase to alpine 3.5.
-* **09.09.16:** - Add layer badges to README.
-* **27.08.16:** - Add badges to README.
-* **08.08.16:** - Rebase to alpine linux.
-* **16.07.15:** - Inital Release.
+Access the webui at `<your-ip>:5667`, for more information check out the wiki on github.

@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv bash
 
 cd /app/flextv
-exec s6-setuidgid abc python3 ./FlexHelper.py --datadir /config
+exec s6-setuidgid abc python3 ./FlexConnect.py --datadir /config

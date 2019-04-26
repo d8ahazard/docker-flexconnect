@@ -35,5 +35,5 @@ RUN \
 COPY root/ /
 
 # ports and volumes
-VOLUME /config /logs
+VOLUME /config /plex
 EXPOSE 5667
