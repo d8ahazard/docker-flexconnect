@@ -31,10 +31,10 @@ docker create \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=Europe/London \
-  -p 5667:5667 \
   -v <path to data>:/config \
   -v <path to plex data>:/plex \
   --restart unless-stopped \
+  --network=host \
   digitalhigh/flexconnect
 ```
 
@@ -56,9 +56,8 @@ services:
     volumes:
       - <path to data>:/config
       - <path to plex data>:/plex
-    ports:
-      - 5667:5667
     restart: unless-stopped
+    network_mode: "host"
 ```
 
 ## Parameters
@@ -67,7 +66,6 @@ Container images are configured using parameters passed at runtime (such as thos
 
 | Parameter | Function |
 | :----: | --- |
-| `-p 5667` | WebUI |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London. |
